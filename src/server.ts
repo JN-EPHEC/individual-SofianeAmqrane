@@ -1,5 +1,13 @@
-function greet(name: string): string {
-    return `Bonjour ${name}.`;
-}
+import express from 'express';
+import type { Request, Response } from 'express';
 
-console.log(greet("Sofiane"));
+const app = express();
+const PORT = 3000;
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Bienvenue sur mon serveur API');
+});
+
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+});
