@@ -3,6 +3,11 @@ import type { Request, Response } from 'express';
 import userRoutes from './routes/userRoutes.js';
 import sequelize from './config/database.js';
 import User from './models/User.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 interface Etudiant {
     id: number;
@@ -19,9 +24,9 @@ const etudiants: Etudiant[] = [
 const app = express();
 const PORT = 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Bienvenue sur mon serveur API');
-});
+//app.get('/', (req: Request, res: Response) => {
+//  res.send('Bienvenue sur mon serveur API');
+//});
 
 app.get('/api/data', (req: Request, res: Response) => {
   res.json(etudiants);
@@ -37,7 +42,10 @@ app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
 
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '../public')));
+
 app.use('/api/users', userRoutes);
+
 
 sequelize.authenticate()
   .then(() => console.log('Connexion à la DB réussie !'))
