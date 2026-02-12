@@ -1,5 +1,6 @@
 import express from 'express';
 import type { Request, Response } from 'express';
+import userRoutes from './routes/userRoutes.js';
 
 interface Etudiant {
     id: number;
@@ -32,6 +33,7 @@ app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
   });
 });
 
+app.use('/api', userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
