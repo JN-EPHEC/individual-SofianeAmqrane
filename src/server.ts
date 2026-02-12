@@ -1,12 +1,37 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 
+interface Etudiant {
+    id: number;
+    nom: string;
+    prenom: string;
+}
+
+const etudiants: Etudiant[] = [
+    { id: 1, nom: "Dupont", prenom: "Jean" },
+    { id: 2, nom: "Martin", prenom: "Sophie" },
+    { id: 3, nom: "Doe", prenom: "John" },
+];
+
 const app = express();
 const PORT = 3000;
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Bienvenue sur mon serveur API');
 });
+
+app.get('/api/data', (req: Request, res: Response) => {
+  res.json(etudiants);
+});
+
+app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
+  const name = req.params.name; // TypeScript sait maintenant que c'est une string
+  res.json({
+    message: `Bonjour ${name}`,
+    timestamp: new Date().toISOString(),
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
