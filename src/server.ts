@@ -1,6 +1,8 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import userRoutes from './routes/userRoutes.js';
+import sequelize from './config/database.js';
+import User from './models/User.js';
 
 interface Etudiant {
     id: number;
@@ -33,8 +35,46 @@ app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
   });
 });
 
-app.use('/api', userRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+app.get('/api/users', async (req: Request, res: Response) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (err: any) {
+    res.status(500).json({ message: 'Erreur serveur', error: err.message });
+  }
 });
+
+sequelize.authenticate()
+  .then(() => console.log('Connexion à la DB réussie !'))
+  .catch((err: unknown) => {
+    if (err instanceof Error) {
+      console.error('Erreur de connexion :', err.message);
+    } else {
+      console.error('Erreur de connexion inconnue :', err);
+    }
+  });
+
+(async () => {
+  try {
+    const john = await User.create({ nom: 'John', prenom: 'Doe' });
+    console.log('Utilisateur ajouté :', john.toJSON());
+  } catch (err: any) {
+    console.error('Erreur lors de l’ajout de l’utilisateur :', err.message);
+  }
+})();
+
+sequelize.sync()
+  .then(() => {
+    console.log('Synchronisation des modèles OK');
+    app.listen(PORT, () => {
+      console.log(`Serveur démarré sur http://localhost:${PORT}`);
+    });
+  })
+  .catch((err: unknown) => {
+    if (err instanceof Error) {
+      console.error('Erreur de sync :', err.message);
+    } else {
+      console.error('Erreur de sync inconnue :', err);
+    }
+  });
+
