@@ -1,15 +1,36 @@
-import { Router } from 'express';
-import type { Request, Response } from 'express';
+import express from 'express';
+import User from '../models/User.js'; 
 
-const router = Router();
+const router = express.Router();
 
-const users = [
-  { id: 1, name: "Alice" },
-  { id: 2, name: "Bob" },
-];
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
+    }
+});
 
-router.get('/users', (req: Request, res: Response) => {
-  res.json(users);
+router.post('/', async (req, res) => {
+    try {
+        const { nom, prenom } = req.body;
+        const user = await User.create({ nom, prenom });
+        res.status(201).json(user);
+    } catch (err) {
+        res.status(500).json({ error: 'Erreur lors de la création de l\'utilisateur' });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const deleted = await User.destroy({ where: { id } });
+        if (deleted) res.json({ message: 'Utilisateur supprimé' });
+        else res.status(404).json({ error: 'Utilisateur non trouvé' });
+    } catch (err) {
+        res.status(500).json({ error: 'Erreur lors de la suppression de l\'utilisateur' });
+    }
 });
 
 export default router;

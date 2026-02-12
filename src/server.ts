@@ -35,14 +35,9 @@ app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
   });
 });
 
-app.get('/api/users', async (req: Request, res: Response) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err: any) {
-    res.status(500).json({ message: 'Erreur serveur', error: err.message });
-  }
-});
+app.use(express.json());
+
+app.use('/api/users', userRoutes);
 
 sequelize.authenticate()
   .then(() => console.log('Connexion à la DB réussie !'))
