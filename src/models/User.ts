@@ -5,6 +5,7 @@ class User extends Model {
   public id!: number;
   public nom!: string;
   public prenom!: string;
+  public role!: string;
 
   public readonly createdAt!: Date; 
   public readonly updatedAt!: Date;
@@ -12,24 +13,16 @@ class User extends Model {
 
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    nom: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    prenom: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    nom: { type: DataTypes.STRING, allowNull: false },
+    prenom: { type: DataTypes.STRING, allowNull: false },
+    role: { 
+      type: DataTypes.ENUM('etudiant', 'prof', 'admin'),
+      defaultValue: 'etudiant',
+      allowNull: false
     },
   },
-  {
-    sequelize,
-    tableName: 'users',
-  }
+  { sequelize, modelName: 'user', tableName: 'users' }
 );
 
 export default User;

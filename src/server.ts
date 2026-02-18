@@ -24,9 +24,6 @@ const etudiants: Etudiant[] = [
 const app = express();
 const PORT = 3000;
 
-//app.get('/', (req: Request, res: Response) => {
-//  res.send('Bienvenue sur mon serveur API');
-//});
 
 app.get('/api/data', (req: Request, res: Response) => {
   res.json(etudiants);

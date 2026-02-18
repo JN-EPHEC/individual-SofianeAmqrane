@@ -1,4 +1,5 @@
 async function fetchUsers() {
+
   const ul = document.getElementById('user-list');
   ul.innerHTML = '';
 
@@ -7,30 +8,41 @@ async function fetchUsers() {
     const users = await res.json();
 
     users.forEach(user => {
+
       const li = document.createElement('li');
       li.className = 'list-group-item d-flex justify-content-between align-items-center';
-      li.textContent = `${user.nom} ${user.prenom}`;
+
+      const leftDiv = document.createElement('div');
+      leftDiv.innerHTML = `
+        ${user.nom} ${user.prenom}
+        <span class="badge bg-secondary ms-2">${user.role}</span>
+      `;
+
+      const rightDiv = document.createElement('div');
+
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = 'X';
       deleteBtn.className = 'btn btn-danger btn-sm';
-       deleteBtn.onclick = async () => {
-          try {
-              const res = await fetch(`/api/users/${user.id}`, { method: 'DELETE' });
-              if (res.ok) {
-                  fetchUsers(); // rafraîchir la liste après suppression
-              } else {
-                  console.error('Erreur lors de la suppression de l’utilisateur');
-              }
-          } catch (err) {
-              console.error('Erreur réseau lors de la suppression:', err);
-          }
+
+      deleteBtn.onclick = async () => {
+        try {
+          const res = await fetch(`/api/users/${user.id}`, { method: 'DELETE' });
+          if (res.ok) fetchUsers();
+        } catch (err) {
+          console.error(err);
+        }
       };
-      li.appendChild(deleteBtn);
+
+      rightDiv.appendChild(deleteBtn);
+
+      li.appendChild(leftDiv);
+      li.appendChild(rightDiv);
+
       ul.appendChild(li);
-      
     });
+
   } catch (err) {
-    console.error('Erreur lors de la récupération des utilisateurs:', err);
+    console.error('Erreur récupération utilisateurs:', err);
   }
 }
 
@@ -39,10 +51,12 @@ async function handleForm(event) {
 
   const nomInput = document.getElementById('nom');
   const prenomInput = document.getElementById('prenom');
+  const roleInput = document.getElementById('role');
 
   const data = {
     nom: nomInput.value,
-    prenom: prenomInput.value
+    prenom: prenomInput.value,
+    role: roleInput.value
   };
 
   try {
