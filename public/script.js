@@ -8,8 +8,26 @@ async function fetchUsers() {
 
     users.forEach(user => {
       const li = document.createElement('li');
+      li.className = 'list-group-item d-flex justify-content-between align-items-center';
       li.textContent = `${user.nom} ${user.prenom}`;
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'X';
+      deleteBtn.className = 'btn btn-danger btn-sm';
+       deleteBtn.onclick = async () => {
+          try {
+              const res = await fetch(`/api/users/${user.id}`, { method: 'DELETE' });
+              if (res.ok) {
+                  fetchUsers(); // rafraîchir la liste après suppression
+              } else {
+                  console.error('Erreur lors de la suppression de l’utilisateur');
+              }
+          } catch (err) {
+              console.error('Erreur réseau lors de la suppression:', err);
+          }
+      };
+      li.appendChild(deleteBtn);
       ul.appendChild(li);
+      
     });
   } catch (err) {
     console.error('Erreur lors de la récupération des utilisateurs:', err);
