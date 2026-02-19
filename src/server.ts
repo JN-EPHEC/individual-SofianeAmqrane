@@ -5,6 +5,8 @@ import sequelize from './config/database.js';
 import User from './models/User.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { requestLogger } from "./middlewares/logger.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,21 +26,7 @@ const etudiants: Etudiant[] = [
 const app = express();
 const PORT = 3000;
 
-//app.get('/', (req: Request, res: Response) => {
-//  res.send('Bienvenue sur mon serveur API');
-//});
-
-app.get('/api/data', (req: Request, res: Response) => {
-  res.json(etudiants);
-});
-
-app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
-  const name = req.params.name; // TypeScript sait maintenant que c'est une string
-  res.json({
-    message: `Bonjour ${name}`,
-    timestamp: new Date().toISOString(),
-  });
-});
+app.use(requestLogger);
 
 app.use(express.json());
 
@@ -46,6 +34,17 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/api/users', userRoutes);
 
+app.get('/api/data', (req: Request, res: Response) => {
+  res.json(etudiants);
+});
+
+app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
+  const name = req.params.name; 
+  res.json({
+    message: `Bonjour ${name}`,
+    timestamp: new Date().toISOString(),
+  });
+});
 
 sequelize.authenticate()
   .then(() => console.log('Connexion à la DB réussie !'))
