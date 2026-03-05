@@ -9,6 +9,7 @@ import { requestLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,11 +29,13 @@ const etudiants: Etudiant[] = [
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(requestLogger);
-
 app.use(express.json());
+
+app.use(requestLogger);
 
 app.use(express.static(path.join(__dirname, '../public')));
 
