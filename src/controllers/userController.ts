@@ -12,6 +12,21 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }
 };
 
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const id = Number(req.params.id);
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la récupération de l'utilisateur" });
+    }
+};
+
 export const createUser = async (req: Request, res: Response) => {
     try {
         const { nom, prenom } = req.body;
@@ -22,6 +37,24 @@ export const createUser = async (req: Request, res: Response) => {
         res.status(500).json({
             error: "Erreur lors de la création de l'utilisateur"
         });
+    }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+    try {
+        const id = Number(req.params.id);
+        const { nom, prenom } = req.body;
+
+        const user = await User.findByPk(id);
+        if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+
+        user.nom = nom ?? user.nom;
+        user.prenom = prenom ?? user.prenom;
+        await user.save();
+
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur lors de la mise à jour de l'utilisateur" });
     }
 };
 

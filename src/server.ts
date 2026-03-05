@@ -37,8 +37,6 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-app.use(express.static(path.join(__dirname, '../public')));
-
 app.use('/api/users', userRoutes);
 
 app.get('/api/data', (req: Request, res: Response) => {
@@ -52,6 +50,8 @@ app.get('/api/hello/:name', (req: Request<{ name: string }>, res: Response) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 sequelize.authenticate()
   .then(() => console.log('Connexion à la DB réussie !'))
