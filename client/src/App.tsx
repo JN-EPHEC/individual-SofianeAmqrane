@@ -1,11 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
+// Typage des utilisateurs venant du backend
+interface User {
+  id: number
+  nom: string
+  prenom: string
+}
+
 function App() {
   const [count, setCount] = useState(0)
+  const [users, setUsers] = useState<User[]>([])
+
+  // Appel API au montage du composant
+  useEffect(() => {
+    fetch("http://localhost:3000/api/users")
+      .then(res => res.json())
+      .then(data => setUsers(data))
+      .catch(err => console.error(err))
+  }, [])
 
   return (
     <>
@@ -27,6 +43,16 @@ function App() {
         >
           Count is {count}
         </button>
+      </section>
+
+      {/* SECTION UTILISATEURS */}
+      <section id="users">
+        <h1>Liste des utilisateurs</h1>
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>{user.nom} {user.prenom}</li>
+          ))}
+        </ul>
       </section>
 
       <div className="ticks"></div>
@@ -62,11 +88,7 @@ function App() {
           <ul>
             <li>
               <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#github-icon"></use>
                 </svg>
                 GitHub
@@ -74,11 +96,7 @@ function App() {
             </li>
             <li>
               <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#discord-icon"></use>
                 </svg>
                 Discord
@@ -86,11 +104,7 @@ function App() {
             </li>
             <li>
               <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#x-icon"></use>
                 </svg>
                 X.com
@@ -98,11 +112,7 @@ function App() {
             </li>
             <li>
               <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#bluesky-icon"></use>
                 </svg>
                 Bluesky
