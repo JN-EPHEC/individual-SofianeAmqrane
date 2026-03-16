@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1773657958630" clover="3.2.0">
+  <project timestamp="1773657958630" name="All files">
+    <metrics statements="24" coveredstatements="24" conditionals="28" coveredconditionals="28" methods="2" coveredmethods="2" elements="54" coveredelements="54" complexity="0" loc="24" ncloc="24" packages="1" files="2" classes="2"/>
+    <file name="password.ts" path="C:\Users\SofamDev\Desktop\Ephec\bac2\DEVIII\tp01\individual-SofianeAmqranePROJ\server\src\utils\password.ts">
+      <metrics statements="9" coveredstatements="9" conditionals="14" coveredconditionals="14" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="3" count="8" type="cond" truecount="2" falsecount="0"/>
+      <line num="6" count="7" type="cond" truecount="2" falsecount="0"/>
+      <line num="9" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="12" count="5" type="cond" truecount="2" falsecount="0"/>
+      <line num="15" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="18" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="21" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="23" count="1" type="stmt"/>
+    </file>
+    <file name="shipping.ts" path="C:\Users\SofamDev\Desktop\Ephec\bac2\DEVIII\tp01\individual-SofianeAmqranePROJ\server\src\utils\shipping.ts">
+      <metrics statements="15" coveredstatements="15" conditionals="14" coveredconditionals="14" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="6" count="9" type="cond" truecount="2" falsecount="0"/>
+      <line num="7" count="8" type="cond" truecount="4" falsecount="0"/>
+      <line num="9" count="6" type="stmt"/>
+      <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="13" count="2" type="stmt"/>
+      <line num="14" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="15" count="2" type="stmt"/>
+      <line num="17" count="2" type="stmt"/>
+      <line num="21" count="6" type="stmt"/>
+      <line num="22" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="23" count="3" type="stmt"/>
+      <line num="27" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="28" count="3" type="stmt"/>
+      <line num="31" count="6" type="stmt"/>
+    </file>
+  </project>
+</coverage>
